@@ -1,0 +1,8 @@
+<h2>Mis Suscripciones Activas</h2>
+<ul>
+  @for(s of subs; track s.subscriptionId) {
+  <li>
+    Fondo: {{ s.fundId }} | Monto: {{ s.amount }} | Estado: {{ s.stateName }}
+  </li>
+  }
+</ul>

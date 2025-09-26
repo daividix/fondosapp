@@ -1,0 +1,17 @@
+<mat-toolbar>
+  <button class="btn-nav" mat-button>Fondos</button>
+  <button class="btn-nav" mat-button>Historial</button>
+
+  <span class="example-spacer"></span>
+
+  <span>Usuario</span>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>person</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="main">
+  @if(account) {
+    <router-outlet />
+  }
+</div>

@@ -1,0 +1,22 @@
+<h2>Mis fondos</h2>
+
+<ul>
+  @for(fund of funds; track fund.fundId) {
+  <li>
+    <strong>{{ fund.name }}</strong> - Mínimo: {{ fund.minAmount }} - Categoría: {{ fund.category }}
+    <button (click)="selectedFund = fund.fundId">Seleccionar</button>
+  </li>
+  }
+  
+</ul>
+
+@if(selectedFund) {
+<div>
+  <h3>Suscribirse al fondo {{ selectedFund }}</h3>
+  <input type="number" [(ngModel)]="amount" placeholder="Monto" />
+  <button (click)="subscribeToFund()">Suscribir</button>
+</div>
+}
+
+
+<p>{{ message }}</p>
