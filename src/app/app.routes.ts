@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { FundsComponent } from './pages/funds/funds.component';
-import { SubscriptionsComponent } from './pages/subscriptions/subscriptions.component';
+import { TransactionsComponent } from './pages/transactions/transactions.component';
 
 export const routes: Routes = [
-	{ path: '', redirectTo: 'funds', pathMatch: 'full' },
-	{ path: 'funds', component: FundsComponent },
-	{ path: 'subscriptions', component: SubscriptionsComponent }
+	{ path: '', redirectTo: 'fondos', pathMatch: 'full' },
+	{ path: 'fondos', component: FundsComponent },
+	{ path: 'transacciones', component: TransactionsComponent }
 ];

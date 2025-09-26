@@ -1,22 +1,157 @@
-<h2>Mis fondos</h2>
+<div class="col-md-8 mx-auto">
+  <div>
+    <div class="w-75 d-inline-block"><h2>Mis fondos</h2></div>
+    <div class="w-25 d-inline-block">
+      <button style="float: right;" class="btn btn-btgblue" 
+      data-bs-toggle="modal" data-bs-target="#modalNewSubscription" (click)="selectedFund = null">Subscribete</button>
+    </div>
+  </div>
 
-<ul>
-  @for(fund of funds; track fund.fundId) {
-  <li>
-    <strong>{{ fund.name }}</strong> - Mínimo: {{ fund.minAmount }} - Categoría: {{ fund.category }}
-    <button (click)="selectedFund = fund.fundId">Seleccionar</button>
-  </li>
+  @if(subscriptions.length) {
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Fondo</th>
+        <th scope="col">Monto</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(subs of subscriptions; track subs.id) {
+        <tr style="cursor: pointer;" (click)="selectSubscription(subs)">
+          <td>{{subs.fund.name}}</td>
+          <td>{{subs.amount}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+  <h6 class="text-center p-4">No estas subscrito a ningún fondo.</h6>
   }
   
-</ul>
-
-@if(selectedFund) {
-<div>
-  <h3>Suscribirse al fondo {{ selectedFund }}</h3>
-  <input type="number" [(ngModel)]="amount" placeholder="Monto" />
-  <button (click)="subscribeToFund()">Suscribir</button>
 </div>
-}
 
 
-<p>{{ message }}</p>
+<!-- Modal -->
+<div class="modal fade" id="modalNewSubscription" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+        Subscribete a un fondo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if(!selectedFund) {
+        <h5>Elige el fondo</h5>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Fondo</th>
+              <th scope="col">Tipo de fondo</th>
+              <th scope="col">Monto Minimo</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(fund of funds; track fund.fundId) {
+              <tr style="cursor: pointer;" (click)="selectedFund = fund">
+                <td>{{fund.name}}</td>
+                <td>{{fund.category}}</td>
+                <td>{{fund.minAmount}}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        } @else {
+        <h5>Cuanto vas a invertir</h5>
+        <label for="amount" class="form-label">Escribe el monto</label>
+        <input type="number" [(ngModel)]="amount" id="amount" class="form-control" placeholder="Minimo {{selectedFund.minAmount}}">
+        }
+        
+      </div>
+      @if(selectedFund) {
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" 
+        (click)="selectedFund = null">Cambiar fondo</button>
+        <button type="button" class="btn btn-btgblue" 
+        (click)="subscribeToFund()" [disabled]="saving">
+        @if(!saving) {
+        Subscribirse
+        } @else {
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        }
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalInfoSubscription" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+        Información del fondo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Nombre del fondo: {{selectedSubscription?.fund.name}}</li>
+          <li class="list-group-item">Monto en el fondo: {{selectedSubscription?.amount}}</li>
+          <li class="list-group-item">Fecha de subscripción: 
+          {{selectedSubscription?.date}}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalConfirmCancel">
+        Cancelar subscripción</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalConfirmCancel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+        Confirmar</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h4>¿Desea Cancelar la subscripción al fondo?</h4>
+        <p>Al cancelar la subscripción se te retorna el dinero invertido.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+        Cerrar</button>
+        <button type="button" class="btn btn-danger" 
+        (click)="cancelSubscription()" [disabled]="saving">
+        @if(!saving) {
+        Si Cancelar
+        } @else {
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        }
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="position-fixed top-0 end-0 p-3" 
+[class]="{'toast-hide': !showToastMsg}">
+  <div class="toast show align-items-center text-bg-{{toastMsg.type}} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        {{toastMsg.msg}}
+      </div>
+    </div>
+  </div>
+</div>

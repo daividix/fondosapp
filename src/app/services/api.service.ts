@@ -30,10 +30,10 @@ export class ApiService {
     );
   }
 
-  cancelSubscription(accoundId: string, subscriptionId: string) {
+  cancelSubscription(accountId: string, subscriptionId: string) {
     return this.http.post<any>(
       `${this.baseUrl}/cancellations`,
-      { accoundId, transactionId: subscriptionId }
+      { accountId, transactionId: subscriptionId }
     );
   }
 

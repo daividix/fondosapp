@@ -1,14 +1,26 @@
-<mat-toolbar>
-  <button class="btn-nav" mat-button>Fondos</button>
-  <button class="btn-nav" mat-button>Historial</button>
-
-  <span class="example-spacer"></span>
-
-  <span>Usuario</span>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>person</mat-icon>
-  </button>
-</mat-toolbar>
+<div class="col">
+  <div class="col-md"></div>
+</div>
+<ul class="nav nav-underline p-3 bg-btglightblue">
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" routerLink="fondos"
+    [class]="{'active': currentRoute == '/fondos'}">Fondos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/transacciones" 
+    [class]="{'active': currentRoute == '/transacciones'}">Historial</a>
+  </li>
+  <li class="nav-item ms-auto">
+    <div class="dropdown">
+      <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle"></i>
+      </button>
+      <ul class="dropdown-menu p-3">
+        <li>Monto actual: {{account?.balance}}</li>
+      </ul>
+    </div>
+  </li>
+</ul>
 
 <div class="main">
   @if(account) {

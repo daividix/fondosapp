@@ -1,4 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+// Allows for customizing button radius independently from global border radius
+$btn-border-radius: 0px;
+$btn-border-radius-sm: 0px;
+$btn-border-radius-lg: 0px;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$modal-content-border-radius: 0px;
+
+/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/scss/_functions';
+@import 'bootstrap/scss/_variables';
+
+$btg-colors: (
+  "btgblue": #001F62,
+  "btglightblue": #d5daff
+);
+
+$theme-colors: map-merge($theme-colors, $btg-colors);
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+@import "bootstrap-icons/font/bootstrap-icons";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+.body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: #0F1724;
+}

@@ -1,31 +1,37 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { ApiService } from './services/api.service';
 import { AccountService } from './services/account.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule
+    RouterLink
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'fondos-app';
+  currentRoute = '';
 
   constructor(private api: ApiService, 
-    private accountService: AccountService) {}
+    private accountService: AccountService,
+    private router: Router) {}
 
   ngOnInit() {
     this.api.getAccount()
     .subscribe(account => this.accountService.actualAccount = account)
+    this.currentRoute = this.router.url;
+    console.log(this.currentRoute)
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.urlAfterRedirects;
+        console.log(this.currentRoute)
+      }
+    });
   }
 
   get account () {
